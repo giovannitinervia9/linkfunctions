@@ -1,9 +1,9 @@
 Package: linkfunctions
-Title: What the Package Does (One Line, Title Case)
+Title: S3 definition of Link functions for statistical models
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Giovanni", "Tinervia", , "giovannitinervia9@gmail.com", role = c("aut", "cre"))
+Description: Implements S3 classes for statistical link functions, providing link and inverse transformations along with their first and second analytical derivatives.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

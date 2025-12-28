@@ -1,0 +1,57 @@
+#' The Logit Link Function
+#'
+#' @description
+#' Creates an object of class \code{"link"} implementing the Logit (log-odds) transformation.
+#' This is the canonical link function for success probability parameter of the Bernoulli and Binomial distributions and is the
+#' foundation of Logistic Regression.
+#'
+#' @details
+#' The Logit link is defined as \eqn{\eta = \log(\frac{\theta}{1 - \theta})}.
+#' The inverse link is the standard logistic function (sigmoid): \eqn{\theta = \frac{1}{1 + \exp(-\eta)}}.
+#'
+#' The link is symmetric around \eqn{\theta = 0.5} (where \eqn{\eta = 0}). It interprets the linear predictor
+#' as the log-odds of the event probability.
+#'
+#' The domain of \eqn{\theta} is \code{(0, 1)}.
+#'
+#' **Implementation:** This function utilizes R's native \code{qlogis} and \code{plogis} functions to ensure
+#' maximum numerical stability and precision, especially near the boundaries of 0 and 1.
+#'
+#' @return An object of class \code{"link"} (see \code{\link{link-class}}) containing
+#' the transformation functions and their exact analytical first and second derivatives.
+#'
+#' @seealso \code{\link{link-class}}, \code{\link{probit_link}}, \code{\link{cloglog_link}}
+#' @importFrom stats qlogis plogis
+#' @export
+logit_link <- function() {
+  o <- list()
+  class(o) <- "link"
+  o$link_name <- "logit"
+
+  o$link_bounds <- c(0, 1)
+
+  o$linkfun <- function(theta) {
+    qlogis(theta)
+  }
+  o$linkinv <- function(eta) {
+    plogis(eta)
+  }
+
+  o$theta_eta <- function(eta) {
+    p <- plogis(eta)
+    p * (1 - p)
+  }
+  o$theta2_eta2 <- function(eta) {
+    p <- plogis(eta)
+    p * (1 - p) * (1 - 2 * p)
+  }
+
+  o$eta_theta <- function(theta) {
+    1 / (theta * (1 - theta))
+  }
+  o$eta2_theta2 <- function(theta) {
+    (2 * theta - 1) / (theta * (1 - theta))^2
+  }
+  o$link_params <- NULL
+  o
+}
