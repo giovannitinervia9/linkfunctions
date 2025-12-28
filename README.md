@@ -1,0 +1,113 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# linkfunctions
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+The goal of `linkfunctions` is to provide a comprehensive and unified
+collection of link functions for statistical modelling.
+
+`link` objects implemented in `linkfunctions` come with exact analytical
+formulas for both the first and second derivatives of link function and
+inverse link function.
+
+## Installation
+
+You can install the development version of `linkfunctions` from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("giovannitinervia9/linkfunctions")
+#> 
+#> ℹ No downloads are needed
+#> ✔ 1 pkg: kept 1 [2.5s]
+library(linkfunctions)
+```
+
+## Core Features
+
+Each link function in this package is an S3 object containing:
+
+- `linkfun(theta)`: Map parameter $\theta$ to linear predictor $\eta$
+
+- `linkinv(eta)`: Map linear predictor $\eta$ to parameter $\theta$
+
+- `theta_eta(eta)`: First derivative $d\theta / d\eta$
+
+- `theta2_eta2(eta)`: Second derivative $d^2\theta / d\eta^2$
+
+- `eta_theta(theta)`: First derivative $d\eta / d\theta$
+
+- `eta2_theta2(theta)`: Second derivative $d^2\eta / d\theta^2$.
+
+## Visualizing Link Functions
+
+The package includes a convenient plot method to inspect the behavior of
+the link and its inverse.
+
+``` r
+plot(logit_link())
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+## Advanced Parametric Links
+
+`linkfunctions` implements some non-standard links. For example, the
+`softplus_link` is a smooth approximation of the ReLU function (common
+in Deep Learning), or `power_link` for Box-Cox transformations.
+
+``` r
+plot(softplus_link(2))
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+## Handling Bounded Parameters
+
+It is possible to easily model parameters constrained to arbitrary
+intervals (e.g., percentages 0-100, or physical limits) via the
+`bounded_link`.
+
+``` r
+plot(bounded_link(lwr = -3, upr = 5))
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+## Available Link Functions
+
+For parameters in $(0, 1)$:
+
+- `logit_link()`
+- `probit_link()`
+- `cauchit_link()`
+- `cloglog_link()`
+- `loglog_link()`
+
+For positive reals $(0, \infty)$:
+
+- `log_link()`
+- `sqrt_link()`
+- `inverse_link()`
+- `inverse_sq_link()`
+- `softplus_link(a)`
+- `power_link(lambda)`
+
+For parameters in $(-1, 1)$:
+
+- `rhobit_link()`
+
+For bounded parameters:
+
+- `lower_bounded_link(lwr)`
+- `upper_bounded_link(upr)`
+- `bounded_link(lwr, upr)`
+
+For real numbers $(-\infty, \infty)$:
+
+- `identity_link()`
