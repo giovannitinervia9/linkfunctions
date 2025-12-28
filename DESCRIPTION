@@ -1,5 +1,5 @@
 Package: linkfunctions
-Title: S3 definition of Link functions for statistical models
+Title: S3 Definition of Link Functions for Statistical Models
 Version: 0.0.0.9000
 Authors@R: 
     person("Giovanni", "Tinervia", , "giovannitinervia9@gmail.com", role = c("aut", "cre"))
